@@ -1,0 +1,21 @@
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+.env
+.env.*
+
+# Keep the original competition data local.
+/01_binary_classification/*.csv
+/02_multiclass_classification/*.csv
+/03_regression/*.csv
+/05_anomaly_detection/*.csv
+/04_image_classification/task4_image_classification/*.csv
+/04_image_classification/task4_image_classification/train/
+/04_image_classification/task4_image_classification/test/
+
+# Keep identifiers and detailed derived datasets local.
+/artifacts/*
+!/artifacts/validation_scores.csv
+!/artifacts/image_model_scores.csv

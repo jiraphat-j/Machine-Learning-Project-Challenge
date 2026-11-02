@@ -1,0 +1,10 @@
+numpy>=2.0,<3
+pandas>=2.2,<4
+matplotlib>=3.9,<4
+scipy>=1.13,<2
+scikit-learn>=1.6,<2
+Pillow>=10,<13
+nbformat>=5.10,<6
+ipykernel>=6.29,<8
+ipython>=8.20,<10
+matplotlib-inline>=0.1.7,<1
