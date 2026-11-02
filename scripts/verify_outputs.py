@@ -11,14 +11,25 @@ sys.path.insert(0, str(ROOT))
 from shared.baseline_utils import validate_submission
 
 notebooks = [ROOT / '00_data_audit.ipynb', ROOT / '02_baseline_submission.ipynb',
-             *sorted(ROOT.glob('task*/01_eda.ipynb'))]
-assert len(notebooks) == 7
+             *sorted(ROOT.glob('task*/01_eda.ipynb')),
+             *sorted(ROOT.glob('task*/02_baseline.ipynb')), ROOT / '03_make_submission.ipynb']
+assert len(notebooks) == 13
 rows = []
 for path in notebooks:
     notebook = nbformat.read(path, as_version=4)
     nbformat.validate(notebook)
     codes = [cell for cell in notebook.cells if cell.cell_type == 'code']
-    assert all(cell.execution_count is not None for cell in codes), path
+    executed = sum(cell.execution_count is not None for cell in codes)
+    if path.name in {'02_baseline.ipynb', '03_make_submission.ipynb'}:
+        assert executed in {0, len(codes)}, path
+        if executed == 0:
+            assert notebook.metadata.get('execution_status') == 'not_run', path
+        source = path.with_suffix('.py').read_text(encoding='utf-8')
+        compile(source, str(path), 'exec')
+    else:
+        assert executed == len(codes), path
+    for cell in codes:
+        ast.parse(cell.source)
     assert not any(output.output_type == 'error' for cell in codes for output in cell.outputs), path
     plots = sum('image/png' in output.get('data', {}) for cell in codes for output in cell.outputs)
     if path.name == '01_eda.ipynb':
@@ -38,7 +49,8 @@ for path in notebooks:
                 for label in ['Findings & Interpretation', '**Findings:**', '**Interpretation:**',
                               '**ML Implications:**', '**Recommended Action:**']:
                     assert label in next_cell.source, (path, index, label)
-    rows.append({'notebook': str(path.relative_to(ROOT)), 'executed_cells': len(codes), 'plots': plots})
+    rows.append({'notebook': str(path.relative_to(ROOT)), 'executed_cells': executed,
+                 'code_cells': len(codes), 'plots': plots})
 
 sample = pd.read_csv(ROOT / 'sample_submission.csv')
 submission = pd.read_csv(ROOT / 'submissions/baseline_submission.csv')

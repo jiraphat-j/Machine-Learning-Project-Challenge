@@ -390,7 +390,7 @@ def build_tabular(task):
           'เทียบ RMSE และ MAE กับ mean predictor; หากมี timestamp ให้เปลี่ยนเป็น temporal holdout' if task == 3 else
           'เริ่ม IsolationForest บนข้อมูล unlabeled พร้อม delta/std; ไม่มี supervised validation '
           'การ fit บน test เป็น transductive ต้องตรวจข้อกำหนดการแข่งขันก่อนส่ง; top 10% เป็นสมมติฐานเริ่มต้นเท่านั้น')
-         + '\n\nการฝึกโมเดลอยู่ใน `../02_baseline_submission.ipynb` ไม่มีการ fit ใน EDA notebook นี้')
+         + '\n\nการฝึกโมเดลอยู่ใน `02_baseline.ipynb` ของ task นี้ ไม่มีการ fit ใน EDA notebook นี้')
     n.md('## 10. Final EDA Summary')
     n.md(f'ยืนยันจากข้อมูลในเครื่อง: {len(frame):,} แถวที่ใช้วิเคราะห์, {features.shape[1]} feature, '
          f'missing เฉลี่ย {missing:.2f}% และ known labels {label_count:,} แถว\n\n'
@@ -534,7 +534,7 @@ def build_images():
          'เทียบ ExtraTrees กับ SVM หลัง StandardScaler จาก pixel 24×12 และ RGB histogram บน CPU '
          'แบ่ง readable subset แบบ stratified 80/20 seed 42 ตรวจ macro F1, accuracy และ confusion matrix '
          'ความท้าทายคือข้อมูลฝึกขาดและ screenshot ใกล้กันอาจทำให้ validation สูงเกินจริง '
-         'การฝึกอยู่ใน `../02_baseline_submission.ipynb`')
+         'การฝึกอยู่ใน `02_baseline.ipynb` ของ task นี้')
     n.md('## 10. Final EDA Summary\n\n'
          f'ยืนยันว่าภาพฝึกอ่านได้ {available:,} ภาพ โดยมีครบ 5 คลาส แต่ขาด {len(train) - available:,} ภาพ '
          'ขั้นถัดไปคือสร้าง baseline จาก subset นี้และกู้ภาพที่ขาด '
@@ -560,7 +560,7 @@ def build_audit():
          '| 10–25 นาที | EDA คุณภาพข้อมูล distribution และความสัมพันธ์ | 01_eda.ipynb ทั้ง 5 งาน |\n'
          '| 25–45 นาที | train/validation และ refit baseline บน CPU | prediction ครบทุกงาน |\n'
          '| 45–60 นาที | ตรวจไฟล์ อ่าน notebook outputs และสรุปข้อจำกัด | baseline_submission.csv |\n\n'
-         'ไม่ทำ hyperparameter search ในรอบแรก; การฝึกแยกอยู่ใน 02_baseline_submission.ipynb '
+         'ไม่ทำ hyperparameter search ในรอบแรก; การฝึกแยกอยู่ใน 02_baseline.ipynb ของแต่ละ task '
          'ข้อค้นพบทั้งหมดอยู่ใน notebook ไม่สร้างรายงาน findings แยก')
     n.code(SETUP)
     n.md('## ตรวจไฟล์และ label ทุกงาน')
